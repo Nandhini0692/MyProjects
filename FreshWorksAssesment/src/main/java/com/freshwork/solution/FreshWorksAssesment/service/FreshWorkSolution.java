@@ -29,6 +29,7 @@ public class FreshWorkSolution{
 	
 	public Response createDatastore(DataStore dataStore) {
                  
+		 logger.info("In createDatastore: {} ",dataStore);
                  MapResponse mapResponse = fileOpertions.initialize();
                  
                  Map<String,String> dataStoreMap = mapResponse.getDataStoreMap();
@@ -66,6 +67,7 @@ public class FreshWorkSolution{
 	}
 	public Response readDatastore(DataStore dataStore) {
 		
+		logger.info("In readDatastore: {} ",dataStore);
 		MapResponse mapResponse = fileOpertions.initialize();
         
         Map<String,String> dataStoreMap = mapResponse.getDataStoreMap();
@@ -101,6 +103,7 @@ public class FreshWorkSolution{
 	}
 	public Response deleteDatastore(DataStore dataStore) {
                      
+		logger.info("In deleteDatastore: {} ",dataStore);
 		MapResponse mapResponse = fileOpertions.initialize();
         
         Map<String,String> dataStoreMap = mapResponse.getDataStoreMap();
