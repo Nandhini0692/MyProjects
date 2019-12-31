@@ -3,6 +3,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,8 @@ import com.freshwork.solution.FreshWorksAssesment.dto.Response;
 @Service
 public class FreshWorkSolution{
 	
+	private final static Logger logger = LoggerFactory.getLogger(FreshWorkSolution.class);
+
 	
 	@Autowired
 	FileOperations fileOpertions;
@@ -23,10 +28,6 @@ public class FreshWorkSolution{
 	static Long start_time = System.currentTimeMillis();
 	
 	public Response createDatastore(DataStore dataStore) {
-
-             //for(Object emp:employeeList) {
-                // DataStore dataStore = (DataStore)freshWorkSolution.parseEmployeeObject( (JSONObject) emp );
-                 System.out.println(dataStore);
                  
                  MapResponse mapResponse = fileOpertions.initialize();
                  
@@ -79,12 +80,10 @@ public class FreshWorkSolution{
         if (dataStoreMap.containsKey(dataStore.getKey())) {
                     	 
         	if (timeToLive >= System.currentTimeMillis()||timeToLive == 0) {
-        		System.out.println("Key "+ dataStore.getKey());
         		String description = dataStore.getKey() +"-"+dataStoreMap.get(dataStore.getKey());
                 response.setStatus("Read is successful");  
                 response.setDescription(description);    
              }else {
-            	System.out.println("Key is expired "+ dataStore.getKey());
                 dataStoreMap.remove(dataStore.getKey());
                 if (timeMap.containsKey(dataStore.getKey())) {
                 	timeMap.remove(dataStore.getKey());
@@ -127,21 +126,6 @@ public class FreshWorkSolution{
                          response.setDescription("Key Not Found");                          
                      }
                      
-                     System.out.println("After Delete Operation");
-                     
-                     BufferedReader readerFile;
-                     try {
-                         readerFile = new BufferedReader(new FileReader("data.txt"));
-                         String line = readerFile.readLine();
-                         while (line != null) {
-                             System.out.println(line);
-                             line = readerFile.readLine();
-                         }
-                         readerFile.close();
-                         
-                     } catch (IOException e) {
-                         e.printStackTrace();
-                     }
                      return response;
 	}
 }

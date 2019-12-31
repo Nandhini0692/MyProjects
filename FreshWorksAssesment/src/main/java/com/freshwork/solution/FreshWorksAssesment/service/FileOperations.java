@@ -11,13 +11,18 @@ import java.nio.file.Files;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.freshwork.solution.FreshWorksAssesment.controller.FreshWorksSolutionController;
 import com.freshwork.solution.FreshWorksAssesment.dto.MapResponse;
 
 @Service
 public class FileOperations {
+	
+	private final static Logger logger = LoggerFactory.getLogger(FileOperations.class);
 	
 	@Autowired
 	MapResponse mapResponse;
@@ -35,9 +40,6 @@ public class FileOperations {
             while (line != null) {
                 String delims = ",";
                 String[] tokens = line.split(delims);
-                for (int i = 0; i < tokens.length; i++) {
-                    System.out.println(tokens[i]);
-                }
                 if (!(tokens[0] == null)) {
                 	dataStoreMap.put(tokens[0], tokens[1]);
                 	if(!(tokens[2] == null)) {
@@ -46,39 +48,23 @@ public class FileOperations {
                 }
                 line = readerFile.readLine();
             }
-            System.out.println(dataStoreMap+","+timeMap);
-            
+ 
             mapResponse.setDataStoreMap(dataStoreMap);
             mapResponse.setTimeMap(timeMap);
+            
             
             readerFile.close();
             
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+        logger.info("DataStore: {} ",mapResponse);
         return mapResponse;
 	}
 	
     public static synchronized void removeLine(String lineContent) throws IOException
     {   
-    	System.out.println("File removeLine");
-        BufferedReader readerFile;
-        try {
-            readerFile = new BufferedReader(new FileReader("data.txt"));
-            String line = readerFile.readLine();
-            while (line != null) {
-                System.out.println(line);
-                line = readerFile.readLine();
-            }
-            readerFile.close();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        System.out.println("File removeLine: " + lineContent);
-        
+        logger.info("removeLine in Fileoperations: {} ",lineContent);
         File file = new File("data.txt");
         File temp = File.createTempFile("temp", "temp");
         PrintWriter out = new PrintWriter(new FileWriter(temp));
@@ -93,7 +79,6 @@ public class FileOperations {
         FileWriter writer = new FileWriter(fileR);  
         int i;    
         while((i=fr.read())!=-1) {   
-        	System.out.print((char)i);
         	writer.write((char)i);
         }
         fr.close(); 
@@ -102,8 +87,8 @@ public class FileOperations {
     
     public static synchronized void addLine(String lineContent) throws IOException
     {	
+    	logger.info("addLine in Fileoperations: {} ",lineContent);
     	File file =  new File("data.txt");
-    	System.out.println("File opened");
 		FileWriter fw = new FileWriter(file,true);
 		BufferedWriter writer = new BufferedWriter(fw);
 		writer.write(lineContent+"\r\n");

@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties.Tomcat.Resource;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,8 @@ import com.freshwork.solution.FreshWorksAssesment.service.FreshWorkSolution;
 
 @RestController
 public class FreshWorksSolutionController {
+	
+	private final Logger logger = LoggerFactory.getLogger(FreshWorksSolutionController.class);
 
 	@Autowired
 	public DataStore dataStore;
@@ -31,8 +36,8 @@ public class FreshWorksSolutionController {
 	@PostMapping("/datastore/read")
 	public Response readDataStore(@Valid @RequestBody DataStore dataStore) {
 		
+		logger.info("Read request is sent: {} ",dataStore);
 		Response response = freshWorkSolution.readDatastore(dataStore);
-
 		return response;
 
 	}
@@ -40,9 +45,8 @@ public class FreshWorksSolutionController {
 	@PostMapping("/datastore/create")
 	public Response createDataStore(@RequestBody DataStore dataStore) {
 		
-		System.out.println("/datastore/create : " +dataStore);
+		logger.info("Create request is sent: {} ",dataStore);
 		Response response = freshWorkSolution.createDatastore(dataStore);
-
 		return response;
 
 	}
@@ -50,9 +54,8 @@ public class FreshWorksSolutionController {
 	@DeleteMapping("/datastore/delete")
 	public Response deleteDataStore(@RequestBody DataStore dataStore) {
 		
-		System.out.println("/datastore/create : " +dataStore);
+		logger.info("Delete request is sent: {} ",dataStore);
 		Response response = freshWorkSolution.deleteDatastore(dataStore);
-
 		return response;
 
 	}

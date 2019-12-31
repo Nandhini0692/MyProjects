@@ -3,6 +3,7 @@ package com.freshwork.solution.FreshWorksAssesment;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,8 +26,8 @@ import com.freshwork.solution.FreshWorksAssesment.service.FreshWorkSolution;
 @WebMvcTest(value = FreshWorksSolutionController.class)
 public class FreshWorksSolutionControllerTest{
     
-    @MockBean
-    private FreshWorkSolution freshWorkSolution;
+    @Mock
+    FreshWorkSolution freshWorkSolution;
     
     @Autowired
     MockMvc mockMvc;
